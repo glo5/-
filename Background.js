@@ -5,14 +5,18 @@ class Background {
         this.w = w;
         this.h = h;
         this.img = img;
-        this.speed = 300;
+        this.speed = 250;
     }
 
     update(delta){
         this.y += this.speed * delta;
+        
+  
     }
 
     render(ctx){
         ctx.drawImage(this.img, this.x, this.y, this.w, this.h);
+                
+            
     }
 }

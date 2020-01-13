@@ -6,42 +6,43 @@ class Bullet {
         this.speed = null;
         this.vector = null;
         this.active = false;
+        this.damage = 1;
+        this.isEnemy = true;
     }
 
-    setActive(x, y, r, s, v){
-        this.x = x;
-        this.y = y;
-        this.r = r;
-        this.speed = s;
-        this.vector = v;
+    setActive(x,y,r,s,v, isEnemy = true){
+    	this.x = x;
+    	this.y = y;
+    	this.r = r;
+    	this.speed = s;
+    	this.vector = v;
         this.active = true;
+        this.isEnemy = isEnemy;
     }
 
     update(d){
         if(!this.active) return;
-        this.x += this.vector.x * d * this.speed;
-        this.y += this.vector.y * d * this.speed;
+        let normal = this.vector.normalize();
+        this.x += normal.x * d * this.speed;
+        this.y += normal.y * d * this.speed;
 
-        //화면밖으로 나가면 active를 false로 변경한다.
-        if(this.x < - this.r 
-            || this.x > App.app.gameWidth + this.r 
-            || this.y < - this.r
-            || this.y > App.app.gameHeight + this.r){
-                this.active = false;
-            }
+        // 화면밖 검사
+        if(this.x < -this.r || this.x > App.app.gameWidth+this.r || this. y < -this.r || this.y > App.app.gameHeight + this.r){
+        	this.active = false;
+        }
     }
 
     render(ctx){
-        if(!this.active) return;
+    	if(!this.active) return;
         ctx.beginPath();
-        ctx.fillStyle = "#c35d2b";
-        ctx.arc(this.x, this.y, this.r + 2, 0, Math.PI * 2);
+        ctx.arc(this.x, this.y, this.r + 2, 5, Math.PI * 3);
+        ctx.fillStyle = "#fff";
         ctx.closePath();
         ctx.fill();
 
         ctx.beginPath();
-        ctx.fillStyle = "#e17d39";
-        ctx.arc(this.x, this.y, this.r, 0, Math.PI * 2);
+        ctx.fillStyle = "blue";
+        ctx.arc(this.x, this.y, this.r + 2, 3, Math.PI * 2);
         ctx.closePath();
         ctx.fill();
     }
